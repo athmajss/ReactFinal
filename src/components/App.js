@@ -1,13 +1,14 @@
-import React, { Component } from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import { Transition, TransitionGroup } from 'react-transition-group'
+import React, { Component } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Transition, TransitionGroup } from 'react-transition-group';
 import { play, exit } from '../timelines'
+import Nav from '../components/Nav'
 import Home from '../views/Home'
-import Author from '../views/Author'
 import About from '../views/About'
-import Nav from './Nav'
+import Author from '../views/Author'
 
 class App extends Component {
+
   render() {
     return (
       <BrowserRouter>
@@ -23,7 +24,7 @@ class App extends Component {
                   appear={true}
                   onEnter={(node, appears) => play(pathname, node, appears)}
                   onExit={(node, appears) => exit(node, appears)}
-                  timeout={{enter: 3000, exit: 3000}}
+                  timeout={{enter: 750, exit: 150}}
                 >
                   <Switch location={location}>
                     <Route exact path="/" component={Home}/>
@@ -39,5 +40,5 @@ class App extends Component {
     )
   }
 }
-
-export default App;
+  
+  export default App;

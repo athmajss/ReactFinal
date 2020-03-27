@@ -1,26 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './Home.css';
+import React, { Component } from 'react';
 
-function Home() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Home
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class Home extends Component {
+  render() {
+    return( 
+      <h1>
+        <div>The Witch</div> 
+        <div className="with--accent">put</div>
+        <div>a spell</div>
+        <div>on <span className="with--accent">You</span></div>
+      </h1>
+    );
+  }
 }
 
-export default Home;
+export default Home

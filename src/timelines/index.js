@@ -1,20 +1,46 @@
-import gsap from 'gsap';
+import { TimelineMax as Timeline, Power1 } from 'gsap';
+
+const getDefaultTimeline = (node, delay) => {
+  const timeline = new Timeline({ paused: true });
+  const content = node.querySelector('.content');
+  const contentInner = node.querySelector('.content--inner');
+
+  timeline
+    .from(node, 0.3, { display: 'none', autoAlpha: 0, delay, ease: Power1.easeIn })
+    .from(content, 0.3, { autoAlpha: 0, x: -30, ease: Power1.easeInOut })
+    .from(contentInner, 0.15, {autoAlpha: 0, y: 25, ease: Power1.easeInOut });
+
+  return timeline;
+}
+
+const getHomeTimeline = (node, delay) => {
+  const timeline = new Timeline({ paused: true });
+  const texts = node.querySelectorAll('h1 > div');
+
+  timeline
+    .from(node, 0, { display: 'none', autoAlpha: 0, delay })
+    .staggerFrom(texts, 0.375, { autoAlpha: 0, y: -25, ease: Power1.easeOut }, 0.125);
+
+  return timeline;
+}
 
 export const play = (pathname, node, appears) => {
-    const timeline = gsap.timeline();
-    const logo = node.querySelector('.App-logo');
-    const text = node.querySelector('p');
-    const link = node.querySelector('.App-link');
-    console.log(logo, text, link);
+  const delay = appears ? 0 : 0.5;
+  let timeline
 
-    timeline.to(node, { duration: 1, opacity: 1, x: 0, ease: 'power1.out' });
-    timeline.from(text, { duration: 1, autoAlpha: 0, y: 25, ease: 'elastic.inOut(1, 0.3)' })
-    timeline.from(link, { duration: 1, autoAlpha: 0, y: 50, ease: 'elastic.inOut(1, 0.3)' })
+  if (pathname === '/')
+    timeline = getHomeTimeline(node, delay);
+  else
+    timeline = getDefaultTimeline(node, delay);
+
+  window
+    .loadPromise
+    .then(() => requestAnimationFrame(() => timeline.play()))
 }
 
 export const exit = (node) => {
-    const timeline = gsap.timeline();
+  const timeline = new Timeline({ paused: true });
 
-    timeline.to(node, { duration: 1, x: 100, ease: 'power1.out' });
-    timeline.to(node, { duration: 1, opacity: 0, x: '100%', ease: 'power1.out' });
+  timeline.to(node, 0.15, { autoAlpha: 0, x: 30, ease: Power1.easeInOut  });
+  timeline.play();
 }
